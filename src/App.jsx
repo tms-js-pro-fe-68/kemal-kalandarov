@@ -25,7 +25,7 @@ export default function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React 2
+            Learn React
           </a>
           {' | '}
           <a
