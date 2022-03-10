@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { Component, useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -14,6 +14,16 @@ import './App.css';
 500 - Server Error
 
 */
+
+class App2 extends Component {
+  componentDidMount() {}
+
+  componentWillUnmount() {}
+
+  shouldComponentUpdate() {}
+
+  componentDidUpdate() {}
+}
 
 export default function App() {
   const [count, setCount] = useState(0);
@@ -54,6 +64,10 @@ export default function App() {
       .then((data) => setCatFacts(data))
       .catch((error) => setErrorMessage(error.message))
       .finally(() => setIsLoading(false));
+
+    return () => {
+      console.log('unmounting');
+    };
   }, []);
 
   useEffect(() => {
