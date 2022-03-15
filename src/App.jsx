@@ -1,146 +1,98 @@
-import { Component, useState, useEffect } from 'react';
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
 
-/* 
-
-200 - OK
-204 - OK (empty)
-30x - redirect
-400 - Invalid request
-401/403 - unauthorized access/forbidden
-404 - Not found
-503 - server unavailable
-500 - Server Error
-
-*/
-
-class App2 extends Component {
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
-  shouldComponentUpdate() {}
-
-  componentDidUpdate() {}
-}
-
 export default function App() {
-  const [count, setCount] = useState(0);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [inputValue, setInputValue] = useState('');
-  const [selectValue, setSelectValue] = useState('1');
+  const [errors, setErrors] = useState([]);
 
-  const [catFacts, setCatFacts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(true);
 
-  const createRestaurant = () => {
-    fetch('https://cat-fact.herokuapp.com/facts', {
+  const handleSubmit = () => {
+    setErrors([]);
+    if (!email) {
+      setErrors((prev) => [...prev, 'email']);
+    }
+    if (!password) {
+      setErrors((prev) => [...prev, 'password']);
+    }
+
+    if (errors.length) return;
+
+    fetch('https://tms-js-pro-back-end.herokuapp.com/api/users/signin', {
       method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        name: 'McDonalds',
-        type: 'fast-food',
-        text: '',
+        email,
+        password,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        setCatFacts(data);
-        setIsLoading(false);
+        sessionStorage.token = data.token;
       });
   };
 
   useEffect(() => {
-    setErrorMessage(null);
-    setIsLoading(true);
-    fetch('https://cat-fact.herokuapp.com/facts')
-      .then((response) => {
-        if (response.status !== 200) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      })
-      .then((data) => setCatFacts(data))
-      .catch((error) => setErrorMessage(error.message))
-      .finally(() => setIsLoading(false));
-
-    return () => {
-      console.log('unmounting');
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log('asdasd');
-  }, [count]);
-
-  console.log(selectValue);
+    setIsDisabled(!!errors.length);
+  }, [errors]);
 
   return (
-    <div className="App" a="b">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React! in branch</p>
-        <p>{isLoading && 'Loading...'}</p>
-        <p>{errorMessage}</p>
-        <ul style={{ margin: 16 }}>
-          {catFacts.map(({ _id: id, text }) => (
-            <li
-              style={{
-                listStyleType: 'none',
-                padding: 16,
-                marginBottom: 16,
-                border: '1px solid white',
-              }}
-              key={id}
-            >
-              {text}
-            </li>
-          ))}
-        </ul>
-        <p>
-          <button
-            type="button"
-            onClick={() => setCount((prevState) => prevState + 1)}
-          >
-            count is: {count}
-          </button>
-        </p>
-        <input
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <select
-          value={selectValue}
-          onChange={(e) => setSelectValue(e.target.value)}
+    <div
+      style={{
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {!sessionStorage.token ? (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gap: 16,
+          }}
         >
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-        </select>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+          <input
+            required
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrors((prev) => prev.filter((error) => error !== 'email'));
+              if (!e.target.value) setErrors((prev) => [...prev, 'email']);
+            }}
+          />
+          <input
+            required
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrors((prev) => prev.filter((error) => error !== 'password'));
+              if (!e.target.value) setErrors((prev) => [...prev, 'password']);
+            }}
+          />
+          {!!errors.length && (
+            <span style={{ color: 'red' }}>{`${errors.join(
+              ' and ',
+            )} required`}</span>
+          )}
+          <button type="button" onClick={handleSubmit} disabled={isDisabled}>
+            sign in
+          </button>
+        </div>
+      ) : (
+        <button type="button" onClick={(e) => (sessionStorage.token = '')}>
+          sign out
+        </button>
+      )}
     </div>
   );
 }
