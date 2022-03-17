@@ -83,6 +83,7 @@ export default function LoginPage() {
           }
         />
         <TextField
+          label="Password"
           id="password"
           name="password"
           type="password"
@@ -95,7 +96,6 @@ export default function LoginPage() {
             formik.errors.password
           }
         />
-        <label htmlFor="email">Password</label>
         <button
           type="submit"
           disabled={!formik.isValid && !formik.isSubmitting}
