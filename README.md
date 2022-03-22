@@ -66,3 +66,5 @@ VS Code -> Настройки -> чекнуть чекбокс Format on Save
 
 В итоге должна остаться одна ошибка в `App.jsx` ('count' is already declared in the upper scope).
 При сохранении код должен форматироваться автоматически.
+
+dz1
