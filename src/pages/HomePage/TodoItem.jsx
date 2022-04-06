@@ -4,8 +4,11 @@ import { useEffect, useState } from 'react'
 import ConfirmDialog from '../../components/ConfirmDialog'
 import ClickBoundary from '../../components/ClickBoundary'
 import TodoItemEditor from './TodoItemEditor'
+import { useHomePageContext } from './HomePageContext'
 
-export default function TodoItem({ id, done, description, onChange }) {
+export default function TodoItem({ id, done, description }) {
+  const { loadTodos } = useHomePageContext()
+
   const [isEditOpen, setIsEditOpen] = useState(false)
   const openEdit = () => setIsEditOpen(true)
 
@@ -16,7 +19,7 @@ export default function TodoItem({ id, done, description, onChange }) {
   }, [done])
 
   const handleClick = async () => {
-    setIsDone((prevIsDone) => {
+    setIsDone(prevIsDone => {
       fetch(`https://tms-js-pro-back-end.herokuapp.com/api/todos/${id}`, {
         method: 'PUT',
         headers: {
@@ -30,7 +33,7 @@ export default function TodoItem({ id, done, description, onChange }) {
       return !prevIsDone
     })
 
-    onChange()
+    loadTodos()
   }
 
   const handleDelete = async () => {
@@ -43,7 +46,7 @@ export default function TodoItem({ id, done, description, onChange }) {
       },
     })
 
-    onChange()
+    loadTodos()
   }
 
   const [isDeleteConfirmDialogOpen, setIsDeleteConfirmDialogOpen] =
@@ -73,7 +76,6 @@ export default function TodoItem({ id, done, description, onChange }) {
         id={id}
         open={isEditOpen}
         onClose={() => setIsEditOpen(false)}
-        onAfterSubmit={onChange}
       />
       <ConfirmDialog
         title="Delete TODO item"

@@ -11,7 +11,7 @@ import { AccountCircle } from '@mui/icons-material'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function AppBar() {
+export default function AppBar({ title }) {
   const ref = useRef()
 
   const navigate = useNavigate()
@@ -38,7 +38,7 @@ export default function AppBar() {
             component="div"
             sx={{ flexGrow: 1, width: 200 }}
           >
-            Home page
+            {title}
           </Typography>
           <Box>
             <IconButton

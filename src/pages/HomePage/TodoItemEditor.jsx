@@ -7,13 +7,11 @@ import {
   TextField,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { useHomePageContext } from './HomePageContext'
 
-export default function TodoItemEditor({
-  id,
-  onClose,
-  onAfterSubmit,
-  ...otherProps
-}) {
+export default function TodoItemEditor({ id, onClose, ...otherProps }) {
+  const { loadTodos } = useHomePageContext()
+
   const [description, setDescription] = useState('')
 
   const loadTodo = () => {
@@ -25,8 +23,8 @@ export default function TodoItemEditor({
         Authorization: `Token ${sessionStorage.token}`,
       },
     })
-      .then((response) => response.json())
-      .then((data) => setDescription(data.description))
+      .then(response => response.json())
+      .then(data => setDescription(data.description))
   }
 
   useEffect(() => {
@@ -48,7 +46,7 @@ export default function TodoItemEditor({
         body: JSON.stringify({ description }),
       },
     )
-    onAfterSubmit()
+    loadTodos()
     onClose()
   }
 
@@ -58,7 +56,7 @@ export default function TodoItemEditor({
       <DialogContent>
         <TextField
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={e => setDescription(e.target.value)}
         />
       </DialogContent>
       <DialogActions>

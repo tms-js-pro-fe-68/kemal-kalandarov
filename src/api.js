@@ -1,6 +1,11 @@
 import axios from 'axios'
 
-export default axios.create({
+const api = axios.create({
   baseURL: 'https://tms-js-pro-back-end.herokuapp.com/api/',
-  headers: { Authorization: `Token ${sessionStorage.token}` },
 })
+
+api.setup = key => {
+  api.defaults.headers.Authorization = `Token ${key}`
+}
+
+export default api

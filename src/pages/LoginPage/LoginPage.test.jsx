@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { Box, Button, Paper, TextField } from '@mui/material';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { object, string } from 'yup';
-import './LoginPage.css';
+import { Box, Button, Paper, TextField } from '@mui/material'
+import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import { object, string } from 'yup'
+import './LoginPage.css'
 
 export default function LoginPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    const { email, password } = values;
+    const { email, password } = values
 
     const response = await fetch(
       'https://tms-js-pro-back-end.herokuapp.com/api/users/signin',
@@ -21,9 +21,9 @@ export default function LoginPage() {
         },
         body: JSON.stringify({ email, password }),
       },
-    );
+    )
 
-    const data = await response.json();
+    const data = await response.json()
 
     // if (data.errors) {
     //   const errorMessage = JSON.stringify(data.errors);
@@ -31,12 +31,12 @@ export default function LoginPage() {
     //   return;
     // }
 
-    sessionStorage.token = data.token;
-    sessionStorage.email = data.email;
-    navigate('/', { replace: true });
+    sessionStorage.token = data.token
+    sessionStorage.email = data.email
+    navigate('/', { replace: true })
 
-    setSubmitting(false);
-  };
+    setSubmitting(false)
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -49,9 +49,7 @@ export default function LoginPage() {
       password: string().min(6).required(),
     }),
     validateOnMount: true,
-  });
-
-  console.log(formik);
+  })
 
   return (
     <Box
@@ -117,5 +115,5 @@ export default function LoginPage() {
         </Button>
       </div>
     </Box>
-  );
+  )
 }

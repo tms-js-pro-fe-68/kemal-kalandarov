@@ -10,7 +10,7 @@ export default function AddTodoItemButton({ onAfterSubmit }) {
   return (
     <>
       <Fab
-        color="primary"
+        color="secondary"
         sx={{ position: 'fixed', bottom: 24, right: 24 }}
         onClick={open}
       >
