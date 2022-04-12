@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from '@mui/material'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
+import ProductsPage from './pages/ProductsPage'
 import theme from './theme'
 import { SnackbarProvider } from 'notistack'
 
@@ -55,6 +56,7 @@ export default function App() {
           <Router>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/products" element={<ProductsPage />} />
               <Route path="/" element={<HomePage />} exact />
             </Routes>
           </Router>

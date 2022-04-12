@@ -2,8 +2,22 @@ import { createTheme } from '@mui/material'
 
 export default createTheme({
   palette: {
+    // mode: 'dark',
+
     primary: {
-      main: 'rgba(177, 138, 252, 1)',
+      light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
     },
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+    // background: {
+    //   default: 'rgb(35,35,35)',
+    // },
   },
 })
