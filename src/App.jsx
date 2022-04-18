@@ -1,12 +1,13 @@
 // import { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { SnackbarProvider } from 'notistack'
 import { ThemeProvider } from '@mui/material'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
-import ProductsPage from './pages/ProductsPage'
+import PizzasPage from './pages/PizzasPage'
 import theme from './theme'
-import { SnackbarProvider } from 'notistack'
+import AppContextProvider from './components/AppContext'
 
 // const LoginPage = lazy(() => import('./pages/LoginPage'));
 
@@ -52,15 +53,18 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider maxSnack={3}>
-        <QueryClientProvider client={queryClient}>
-          <Router>
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/" element={<HomePage />} exact />
-            </Routes>
-          </Router>
-        </QueryClientProvider>
+        <AppContextProvider>
+          <QueryClientProvider client={queryClient}>
+            <Router>
+              <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/pizzas" element={<PizzasPage />} />
+                {/* <Route path="/:id" element={<PizzaPage />} /> */}
+                <Route path="/" element={<HomePage />} exact />
+              </Routes>
+            </Router>
+          </QueryClientProvider>
+        </AppContextProvider>
       </SnackbarProvider>
     </ThemeProvider>
   )

@@ -9,6 +9,7 @@ import './LoginPage.css'
 import Page from '../../components/Page'
 import api from '../../api'
 import FormikTextField from '../../components/FormikTextField'
+import { useAppContext } from '../../components/AppContext'
 
 // const StyledDiv = styled(Paper)`
 //   ${({ theme }) => css`
@@ -23,6 +24,7 @@ import FormikTextField from '../../components/FormikTextField'
 // `
 
 export default function LoginPage() {
+  const { setIsInitialized } = useAppContext()
   const navigate = useNavigate()
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -34,6 +36,7 @@ export default function LoginPage() {
     sessionStorage.email = data.email
 
     api.setup(data.token)
+    setIsInitialized(true)
 
     navigate('/', { replace: true })
 
