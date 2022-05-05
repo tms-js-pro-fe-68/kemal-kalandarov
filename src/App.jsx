@@ -3,11 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { SnackbarProvider } from 'notistack'
 import { ThemeProvider } from '@mui/material'
+import { Provider } from 'react-redux'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import PizzasPage from './pages/PizzasPage'
 import theme from './theme'
 import AppContextProvider from './components/AppContext'
+import store from './store'
+import ReduxTestPage from './pages/ReduxTestPage'
+import HomePageRedux from './pages/HomePageRedux'
 
 // const LoginPage = lazy(() => import('./pages/LoginPage'));
 
@@ -51,21 +55,25 @@ export default function App() {
   // }, [])
 
   return (
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider maxSnack={3}>
-        <AppContextProvider>
-          <QueryClientProvider client={queryClient}>
-            <Router>
-              <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/pizzas" element={<PizzasPage />} />
-                {/* <Route path="/:id" element={<PizzaPage />} /> */}
-                <Route path="/" element={<HomePage />} exact />
-              </Routes>
-            </Router>
-          </QueryClientProvider>
-        </AppContextProvider>
-      </SnackbarProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={3}>
+          <AppContextProvider>
+            <QueryClientProvider client={queryClient}>
+              <Router>
+                <Routes>
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/pizzas" element={<PizzasPage />} />
+                  <Route path="/redux-test" element={<ReduxTestPage />} />
+                  <Route path="/redux-home-page" element={<HomePageRedux />} />
+                  {/* <Route path="/:id" element={<PizzaPage />} /> */}
+                  <Route path="/" element={<HomePage />} exact />
+                </Routes>
+              </Router>
+            </QueryClientProvider>
+          </AppContextProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </Provider>
   )
 }

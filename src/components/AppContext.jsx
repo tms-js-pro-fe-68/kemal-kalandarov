@@ -1,4 +1,6 @@
 import { useEffect, createContext, useContext, useState, useMemo } from 'react'
+import { useDispatch } from 'react-redux'
+import { initializeAction } from '../actions/isInitialized'
 import api from '../api'
 
 const Context = createContext()
@@ -8,13 +10,15 @@ export const useAppContext = () => useContext(Context)
 export default function AppContextProvider({ children }) {
   const [isInitialized, setIsInitialized] = useState(false)
 
+  const dispatch = useDispatch()
+
   const [cart, setCart] = useState({})
 
   useEffect(() => {
     if (!sessionStorage.token) return
 
     api.setup(sessionStorage.token)
-    setIsInitialized(true)
+    dispatch(initializeAction())
   }, [])
 
   const value = useMemo(

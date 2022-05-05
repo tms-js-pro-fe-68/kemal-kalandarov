@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { Button, Paper, Typography } from '@mui/material'
+import { Box, Button, Paper, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { object, string } from 'yup'
@@ -10,6 +10,8 @@ import Page from '../../components/Page'
 import api from '../../api'
 import FormikTextField from '../../components/FormikTextField'
 import { useAppContext } from '../../components/AppContext'
+import { useDispatch } from 'react-redux'
+import { initializeAction } from '../../actions/isInitialized'
 
 // const StyledDiv = styled(Paper)`
 //   ${({ theme }) => css`
@@ -24,8 +26,9 @@ import { useAppContext } from '../../components/AppContext'
 // `
 
 export default function LoginPage() {
-  const { setIsInitialized } = useAppContext()
   const navigate = useNavigate()
+
+  const dispatch = useDispatch()
 
   const handleSubmit = async (values, { setSubmitting }) => {
     const { email, password } = values
@@ -36,7 +39,7 @@ export default function LoginPage() {
     sessionStorage.email = data.email
 
     api.setup(data.token)
-    setIsInitialized(true)
+    dispatch(initializeAction())
 
     navigate('/', { replace: true })
 
@@ -57,14 +60,22 @@ export default function LoginPage() {
   })
 
   return (
-    <Page className="justify-center items-center">
-      <Paper
-        className="grid grid-cols-1 gap-4 p-4 w-1/2"
+    <Page
+      className="justify-center items-center"
+      sx={{
+        background: `url('./images/login-bg.jpeg')`,
+        backgroundSize: '100% 100%',
+        // backgroundRepeat: 'no-repeat',
+        // backgroundPosition: 'center',
+      }}
+    >
+      <Box
+        className="grid grid-cols-1 gap-4 p-4 w-1/4"
         component="form"
-        elevation={4}
+        // elevation={4}
         onSubmit={formik.handleSubmit}
       >
-        <Typography variant="h5" textAlign="center">
+        <Typography variant="h5" textAlign="center" sx={{ color: 'white' }}>
           Please sign in
         </Typography>
         <FormikTextField
@@ -72,12 +83,14 @@ export default function LoginPage() {
           type="email"
           name="email"
           formik={formik}
+          sx={{ bgcolor: 'gray' }}
         />
         <FormikTextField
           label="Password"
           name="password"
           type="password"
           formik={formik}
+          sx={{ bgcolor: 'gray' }}
         />
         <Button
           type="submit"
@@ -88,7 +101,7 @@ export default function LoginPage() {
         >
           sign in
         </Button>
-      </Paper>
+      </Box>
     </Page>
   )
 }

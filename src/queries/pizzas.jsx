@@ -1,10 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
 import api from '../api'
-import { useAppContext } from '../components/AppContext'
+// import { useAppContext } from '../components/AppContext'
 
 export function usePizzasGet(options) {
-  const { isInitialized } = useAppContext()
+  const isInitialized = useSelector(store => store.isInitialized)
 
   return useQuery(
     ['pizzas'],
