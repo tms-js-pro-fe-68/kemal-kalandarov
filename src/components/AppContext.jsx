@@ -15,9 +15,9 @@ export default function AppContextProvider({ children }) {
   const [cart, setCart] = useState({})
 
   useEffect(() => {
-    if (!sessionStorage.token) return
+    // if (!sessionStorage.token) return
 
-    api.setup(sessionStorage.token)
+    // api.setup(sessionStorage.token)
     dispatch(initializeAction())
   }, [])
 
