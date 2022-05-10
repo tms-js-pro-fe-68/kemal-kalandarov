@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import PizzasPage from './pages/PizzasPage'
+import PizzaPage from './pages/PizzasPage/PizzaPage'
 import theme from './theme'
 import AppContextProvider from './components/AppContext'
 import store from './store'
@@ -63,6 +64,7 @@ export default function App() {
               <Router>
                 <Routes>
                   <Route path="/login" element={<LoginPage />} />
+                  <Route path="/pizzas/:id" element={<PizzaPage />} />
                   <Route path="/pizzas" element={<PizzasPage />} />
                   <Route path="/redux-test" element={<ReduxTestPage />} />
                   <Route path="/redux-home-page" element={<HomePageRedux />} />

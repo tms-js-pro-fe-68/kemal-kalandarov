@@ -19,3 +19,19 @@ export function usePizzasGet(options) {
     },
   )
 }
+
+export function usePizzaGet(options) {
+  const isInitialized = useSelector(store => store.isInitialized)
+
+  return useQuery(
+    ['pizzas'],
+    async () => {
+      const result = await api.get(`/pizzas/${options.id}`)
+      return result.data
+    },
+    {
+      ...options,
+      enabled: isInitialized,
+    },
+  )
+}

@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
+import { Link } from 'react-router-dom'
 import {
   Favorite as FavoriteIcon,
   Share as ShareIcon,
@@ -43,44 +44,46 @@ export default function PizzasPage() {
         }}
       >
         {pizzas.map(pizza => (
-          <Card key={pizza.id} sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              height="194"
-              image={pizza.imageUrl}
-              alt="Paella dish"
-            />
-            <CardContent>
-              <Stack direction="row" justifyContent="space-between">
-                <Typography variant="subtitle1" color="text.secondary">
-                  {pizza.name}
+          <Link key={pizza.id} to={`/pizzas/${pizza.id}`}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                component="img"
+                height="194"
+                image={pizza.imageUrl}
+                alt="Paella dish"
+              />
+              <CardContent>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="subtitle1" color="text.secondary">
+                    {pizza.name}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="text.secondary"
+                    sx={{ fontWeight: 'bold' }}
+                  >
+                    BYN {pizza.price}
+                  </Typography>
+                </Stack>
+                <Typography variant="body2" color="text.secondary">
+                  {pizza.description}
                 </Typography>
-                <Typography
-                  variant="subtitle1"
-                  color="text.secondary"
-                  sx={{ fontWeight: 'bold' }}
-                >
-                  BYN {pizza.price}
-                </Typography>
-              </Stack>
-              <Typography variant="body2" color="text.secondary">
-                {pizza.description}
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <Badge badgeContent={pizza.likesCount} color="primary">
-                  <FavoriteIcon
-                    sx={{ color: pizza.likesCount ? 'red' : undefined }}
-                  />
-                </Badge>
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-              <PizzasPageOrderAction id={pizza.id} />
-            </CardActions>
-          </Card>
+              </CardContent>
+              <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  <Badge badgeContent={pizza.likesCount} color="primary">
+                    <FavoriteIcon
+                      sx={{ color: pizza.likesCount ? 'red' : undefined }}
+                    />
+                  </Badge>
+                </IconButton>
+                <IconButton aria-label="share">
+                  <ShareIcon />
+                </IconButton>
+                <PizzasPageOrderAction id={pizza.id} />
+              </CardActions>
+            </Card>
+          </Link>
         ))}
       </Box>
       <CartButton />
