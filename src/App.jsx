@@ -1,4 +1,5 @@
 // import { useEffect, useState } from 'react'
+import { lazy } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { SnackbarProvider } from 'notistack'
@@ -6,7 +7,7 @@ import { ThemeProvider } from '@mui/material'
 import { Provider } from 'react-redux'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
-import PizzasPage from './pages/PizzasPage'
+// import PizzasPage from './pages/PizzasPage'
 import PizzaPage from './pages/PizzasPage/PizzaPage'
 import theme from './theme'
 import AppContextProvider from './components/AppContext'
@@ -14,7 +15,7 @@ import store from './store'
 import ReduxTestPage from './pages/ReduxTestPage'
 import HomePageRedux from './pages/HomePageRedux'
 
-// const LoginPage = lazy(() => import('./pages/LoginPage'));
+const PizzasPage = lazy(() => import('./pages/PizzasPage'))
 
 export function setRandomColour() {
   const r = Math.floor(Math.random() * 11)
@@ -29,9 +30,9 @@ export function setRandomColour() {
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      staleTime: Infinity,
-    },
+    // queries: {
+    //   staleTime: Infinity,
+    // },
   },
 })
 

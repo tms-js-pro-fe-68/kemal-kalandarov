@@ -8,13 +8,13 @@ const Context = createContext()
 export const usePageContext = () => useContext(Context)
 
 export default function Page({ sx, ...otherProps }) {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
-  // const navigateToLogin = () => navigate('/login', { replace: true })
+  const navigateToLogin = () => navigate('/login', { replace: true })
 
-  // useEffect(() => {
-  //   if (!sessionStorage.token) navigateToLogin()
-  // }, [])
+  useEffect(() => {
+    if (!sessionStorage.token) navigateToLogin()
+  }, [])
 
   return (
     <Box

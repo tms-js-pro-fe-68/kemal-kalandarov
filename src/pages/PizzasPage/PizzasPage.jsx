@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Badge,
   Box,
@@ -20,15 +21,23 @@ import { usePizzasGet } from '../../queries/pizzas'
 import CartButton from './CartButton'
 import PizzasPageOrderAction from './PizzasPageOrderAction'
 import { useAppContext } from '../../components/AppContext'
+import ClickBoundary from '../../components/ClickBoundary'
+import PizzaDialog from './PizzaDialog'
 
 export default function PizzasPage() {
   const { data: pizzas = [] } = usePizzasGet()
 
   const { cart } = useAppContext()
 
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <Page>
       <AppBar title="Products" />
+      <button type="button" onClick={() => setIsOpen(true)}>
+        add
+      </button>
+      <PizzaDialog open={isOpen} onClose={() => setIsOpen(false)} />
       <Box
         sx={{
           p: 2,
@@ -70,17 +79,19 @@ export default function PizzasPage() {
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <Badge badgeContent={pizza.likesCount} color="primary">
-                    <FavoriteIcon
-                      sx={{ color: pizza.likesCount ? 'red' : undefined }}
-                    />
-                  </Badge>
-                </IconButton>
-                <IconButton aria-label="share">
-                  <ShareIcon />
-                </IconButton>
-                <PizzasPageOrderAction id={pizza.id} />
+                <ClickBoundary>
+                  <IconButton aria-label="add to favorites">
+                    <Badge badgeContent={pizza.likesCount} color="primary">
+                      <FavoriteIcon
+                        sx={{ color: pizza.likesCount ? 'red' : undefined }}
+                      />
+                    </Badge>
+                  </IconButton>
+                  <IconButton aria-label="share">
+                    <ShareIcon />
+                  </IconButton>
+                  <PizzasPageOrderAction id={pizza.id} />
+                </ClickBoundary>
               </CardActions>
             </Card>
           </Link>
